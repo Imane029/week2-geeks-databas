@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
+        <div class="mb-6">
+            <div class="flex justify-center mb-4">
+                <div class="bg-blue-600 p-4 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.586-1.586A2 2 0 0011.586 3h-3.172a2 2 0 00-1.414.586L4.707 5.293A1 1 0 014.293 5H4zm2 5a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm0 4a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800">MedCare System</h1>
+            <p class="text-gray-500">Système de Gestion Hospitalière</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if message != 'Please log in to access this page.' %}
+                <div class="mb-4 p-4 rounded-lg {% if category == 'success' %}bg-green-100 text-green-800{% elif category == 'error' %}bg-red-100 text-red-800{% elif category == 'info' %}bg-blue-100 text-blue-800{% endif %}">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="p-6 border border-gray-200 rounded-lg mt-4">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Connexion Sécurisée</h2>
+            <form method="POST">
+                <div class="mb-4 text-left">
+                    <label for="username" class="block text-gray-600 mb-1">Nom d'utilisateur</label>
+                    <input type="text" name="username" id="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-6 text-left">
+                    <label for="password" class="block text-gray-600 mb-1">Mot de passe</label>
+                    <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Se connecter</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

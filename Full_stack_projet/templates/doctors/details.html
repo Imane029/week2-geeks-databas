@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Détails du Médecin{% endblock %}
+
+{% block content %}
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Détails du Médecin : {{ doctor.first_name }} {{ doctor.last_name }}</h1>
+        <p class="mb-2"><span class="font-semibold">Spécialisation :</span> {{ doctor.specialization }}</p>
+        <p class="mb-2"><span class="font-semibold">Email :</span> {{ doctor.email }}</p>
+        <p class="mb-4"><span class="font-semibold">Numéro de contact :</span> {{ doctor.contact_number }}</p>
+
+        <h2 class="text-xl font-semibold mt-6 mb-4">Rendez-vous à venir</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Heure</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raison</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% if appointments %}
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ appointment.appointment_date.strftime('%Y-%m-%d') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ appointment.appointment_time.strftime('%H:%M') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ appointment.reason }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-500">Aucun rendez-vous pour ce médecin.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

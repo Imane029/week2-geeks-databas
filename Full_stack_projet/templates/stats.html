@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Statistiques de l'Hôpital</h1>
+    
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-blue-200 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-blue-800">Nombre de Patients</h2>
+            <p class="text-4xl font-bold text-blue-900 mt-2">{{ patient_count }}</p>
+        </div>
+        <div class="bg-green-200 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-green-800">Nombre de Médecins</h2>
+            <p class="text-4xl font-bold text-green-900 mt-2">{{ doctor_count }}</p>
+        </div>
+        <div class="bg-yellow-200 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-yellow-800">Nombre de Rendez-vous</h2>
+            <p class="text-4xl font-bold text-yellow-900 mt-2">{{ appointment_count }}</p>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Rendez-vous par Spécialisation</h2>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script id="chart-data" type="application/json">
+        {{ {"specializations": specializations, "counts": counts} | tojson }}
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/chart_config.js') }}"></script>
+{% endblock %}

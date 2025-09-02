@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Planifier un rendez-vous{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">Planifier un nouveau rendez-vous</h1>
+    
+    <form action="{{ url_for('create_appointment') }}" method="post" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="patient" class="block mb-2 font-medium text-gray-700">Patient</label>
+                <select id="patient" name="patient_id" required
+                    class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <option value="" disabled selected>Sélectionner un patient</option>
+                    {% for patient in patients %}
+                        <option value="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="doctor" class="block mb-2 font-medium text-gray-700">Médecin</label>
+                <select id="doctor" name="doctor_id" required
+                    class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <option value="" disabled selected>Sélectionner un médecin</option>
+                    {% for doctor in doctors %}
+                        <option value="{{ doctor.id }}">{{ doctor.first_name }} {{ doctor.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="appointment_date" class="block mb-2 font-medium text-gray-700">Date</label>
+                <input type="date" id="appointment_date" name="appointment_date" required
+                    class="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="appointment_time" class="block mb-2 font-medium text-gray-700">Heure</label>
+                <input type="time" id="appointment_time" name="appointment_time" required
+                    class="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            </div>
+        </div>
+
+        <div>
+            <label for="reason" class="block mb-2 font-medium text-gray-700">Motif de la consultation</label>
+            <textarea id="reason" name="reason" rows="4" required
+                class="block w-full rounded-md border border-gray-300 px-3 py-2 resize-none focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-3">
+            <a href="{{ url_for('list_appointments') }}" class="inline-block px-5 py-2 rounded-md bg-gray-500 text-white hover:bg-gray-600 transition">
+                Annuler
+            </a>
+            <button type="submit" class="inline-block px-5 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+                Planifier le rendez-vous
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

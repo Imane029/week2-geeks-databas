@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Hôpital{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Bienvenue dans votre système de gestion hospitalière</h1>
+    <div class="grid md:grid-cols-3 gap-6 text-center">
+        <a href="{{ url_for('list_patients') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h2 class="text-2xl font-semibold text-blue-600">Gérer les Patients</h2>
+            <p class="mt-2 text-gray-600">Ajouter, modifier ou supprimer des patients et afficher leurs détails.</p>
+        </a>
+        <a href="{{ url_for('list_doctors') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h2 class="text-2xl font-semibold text-blue-600">Gérer les Médecins</h2>
+            <p class="mt-2 text-gray-600">Accéder à la liste des médecins et à leurs spécialisations.</p>
+        </a>
+        <a href="{{ url_for('stats') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h2 class="text-2xl font-semibold text-blue-600">Voir les Statistiques</h2>
+            <p class="mt-2 text-gray-600">Visualiser des données clés sur l'activité de l'hôpital.</p>
+        </a>
+    </div>
+{% endblock %}

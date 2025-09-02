@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Patients{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Liste des Patients</h1>
+    
+    <div class="flex justify-between items-center mb-6">
+        <form action="{{ url_for('list_patients') }}" method="get" class="flex items-center space-x-2">
+            <input type="text" name="search" placeholder="Rechercher par nom..." value="{{ search_query or '' }}" class="border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Rechercher</button>
+        </form>
+        <a href="{{ url_for('create_patient') }}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Ajouter un patient</a>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de naissance</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numéro de contact</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for patient in patients.items %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ patient.first_name }} {{ patient.last_name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ patient.date_of_birth.strftime('%Y-%m-%d') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ patient.contact_number }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a href="{{ url_for('details_patient', id=patient.patient_id) }}" class="text-blue-600 hover:text-blue-900 mr-4">Détails</a>
+                        <a href="{{ url_for('edit_patient', id=patient.patient_id) }}" class="text-yellow-600 hover:text-yellow-900 mr-4">Modifier</a>
+                        <form action="{{ url_for('delete_patient', id=patient.patient_id) }}" method="post" class="inline" onsubmit="return confirmDelete(event)">
+                            <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 flex justify-center space-x-2">
+        {% if patients.has_prev %}
+            <a href="{{ url_for('list_patients', page=patients.prev_num, search=search_query) }}" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">Précédent</a>
+        {% endif %}
+        {% for page in patients.iter_pages() %}
+            <a href="{{ url_for('list_patients', page=page, search=search_query) }}" class="px-3 py-1 rounded-lg {% if page == patients.page %}bg-blue-600 text-white{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">{{ page }}</a>
+        {% endfor %}
+        {% if patients.has_next %}
+            <a href="{{ url_for('list_patients', page=patients.next_num, search=search_query) }}" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">Suivant</a>
+        {% endif %}
+    </div>
+{% endblock %}
